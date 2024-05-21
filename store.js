@@ -22,6 +22,8 @@
  * @returns {State}
  */
 
+export const Action = ''
+
 /**
  * @callback update
  * @param {Action}
@@ -33,6 +35,9 @@
  * @param {Notify} notify
  */
 
+/**
+ * @callback EmptyFn
+ */
 /**
  * @typedef {object} Store
  * @prop {Update} update
@@ -59,8 +64,13 @@ const initial = {
  /**
  * @type {Array<Notify>}
  */
- const notifiers = [];
+ let notifiers = [];
 
+ /**
+  * 
+  * @param {Action} action
+  * @returns {} 
+  */
 export  const update = (action) => {
         if(typeof action !== 'function'){
             throw new Error('action is required to be function')
@@ -68,6 +78,9 @@ export  const update = (action) => {
         const prev = Object.freeze({...state[0]});
         const next = Object.freeze({...action(prev)});
 
+        const handler = (notify) => notify(prev,next)
+
+        notifiers.forEach(handler)
         state.unshift(next);
     }
     /**
@@ -78,8 +91,10 @@ export   const subscribe = (notify) => {
     notifiers.push(notify);
 
     const unsubscribe = () => {
-
-    }
+        const handler = (current) => current !== notify
+      const result = notifiers.filter(handler)
+      notifiers = result;  
+    };
 
     return unsubscribe;
 };
