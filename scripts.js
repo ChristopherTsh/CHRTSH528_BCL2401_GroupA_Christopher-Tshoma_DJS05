@@ -1,40 +1,19 @@
-import {subscribe, update, Action, Notify} from './store.js'
+import {subscribe, update, getState} from './store.js'
+import { add, subtract, reset } from './actions.js';
 
 
+const logHandler= (prev, next ) => console.log('State changed from', prev, 'to', next)
+const unsubscribeLog = subscribe(logHandler)
 
-const handler= (prev, next ) => console.log(prev, next)
-const unsubscribe = subscribe(handler)
+console.log('Initial State:', getState());
 
-/**
- * @type {Notify}
- */
-const htmlHandler = (next, prev) => {
-    if(prev.wind.value === next.wind.value) return
+update(add);
+update(add);
 
-    const div = document.createElement('div');
-    div.innerText = next.wind.value.toString();
-    document.body.appendChild(div)
-};
+update(subtract);
 
-subscribe(htmlHandler);
+update(reset);
 
-/**
- * @type {Action}
- */
-const customAction = (state) => {
-    return{
-        ...state,
-        wind:{
-            ...state.wind,
-            value: state.wind.value + 19,
-        },
-    };
-};
-update(customAction);
-unsubscribe();
-
-update(customAction);
-update(customAction);
-update(customAction);
+unsubscribeLog();
 
 
