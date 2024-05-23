@@ -52,7 +52,7 @@ const initial = {count: 0};
  let notifiers = [];
 
  /**
-  * 
+  * Updates the state based on the action provided
   * @param {Action} action
   * 
   */
@@ -63,12 +63,12 @@ export  const update = (action) => {
         const prev = Object.freeze({...state[0]});
         const next = Object.freeze({...action(prev)});
 
-        const handler = (notify) => notify(next,prev)
-
+         // Notify all subscribers about the state change
         notifiers.forEach((notify) => notify(next, prev));
         state.count = next.count;
     }
    /**
+    * Subscribes a notify function to state changes
  * @param {Notify} notify
  * @returns {EmptyFn}
  */
@@ -76,6 +76,7 @@ export  const update = (action) => {
 export   const subscribe = (notify) => {
     notifiers.push(notify);
 
+    // Return a function to unsubscribe the notify function
     const unsubscribe = () => {
         const handler = (current) => current !== notify
         return handler;
@@ -85,12 +86,12 @@ export   const subscribe = (notify) => {
 };
  
 /**
+ * Returns the current state
  * @returns {state}
  */
 export const getState = () => {
     return { ...state };
 };
-
 
 
 

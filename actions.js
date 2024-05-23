@@ -4,6 +4,7 @@
  */
 
 /**
+ *  Action to increment the count
  * @param {state} state
  * @returns {state}
  */
@@ -15,6 +16,7 @@ export const add = (state) => {
 };
 
 /**
+ * Action to decrement the count
  * @param {state} state
  * @returns {state}
  */
@@ -26,6 +28,7 @@ export const subtract = (state) => {
 };
 
 /**
+ *  Action to reset the count
  * @param {state} state
  * @returns {state}
  */
