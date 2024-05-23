@@ -1,40 +1,29 @@
-import {subscribe, update, Action, Notify} from './store.js'
-
-
-
-const handler= (prev, next ) => console.log(prev, next)
-const unsubscribe = subscribe(handler)
+/**
+ * @typedef {object} state
+ * @prop {number} count
+ */
 
 /**
- * @type {Notify}
+ * @param {state} state
+ * @returns {state}
  */
-const htmlHandler = (next, prev) => {
-    if(prev.wind.value === next.wind.value) return
 
-    const div = document.createElement('div');
-    div.innerText = next.wind.value.toString();
-    document.body.appendChild(div)
-};
-
-subscribe(htmlHandler);
-
-/**
- * @type {Action}
- */
-const customAction = (state) => {
-    return{
+export const subtract = (state) => {
+    return {
         ...state,
-        wind:{
-            ...state.wind,
-            value: state.wind.value + 19,
-        },
+        count: state.count - 1,
     };
 };
-update(customAction);
-unsubscribe();
 
-update(customAction);
-update(customAction);
-update(customAction);
+/**
+ * @param {state} state
+ * @returns {state}
+ */
+export const reset = (state) => {
+    return {
+        ...state,
+        count: 0,
+    };
+};
 
 
