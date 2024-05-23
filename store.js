@@ -1,13 +1,6 @@
 /**
- * @typedef {object} item
- * @prop {number} value
- */
-
-/**
  * @typedef {object} state
- * @prop {item} wind
- * @prop {item} temperature
- * @prop {item} humidity
+ * @prop {number} count
  */
 
 /**
@@ -22,7 +15,8 @@
  * @returns {State}
  */
 
-export const Action = ''
+export const Notify = {};
+export const Action = {};
 
 /**
  * @callback update
@@ -44,22 +38,13 @@ export const Action = ''
  * @prop {Subscribe} subscribe
  */
 
-const initial = {
-    wind:{
-        value: 1,
-    },
-    temperature:{
-        value: 1,
-    },
-    humidity:{
-        value:1,
-    }
-};
+const initial = {count: 0};
+   
 
 /**
- * @type {Array<state>}
+ * @type {state}
  */
- const state = [initial]
+ const state = initial
 
  /**
  * @type {Array<Notify>}
@@ -69,7 +54,7 @@ const initial = {
  /**
   * 
   * @param {Action} action
-  * @returns {} 
+  * 
   */
 export  const update = (action) => {
         if(typeof action !== 'function'){
@@ -78,27 +63,32 @@ export  const update = (action) => {
         const prev = Object.freeze({...state[0]});
         const next = Object.freeze({...action(prev)});
 
-        const handler = (notify) => notify(prev,next)
+        const handler = (notify) => notify(next,prev)
 
-        notifiers.forEach(handler)
-        state.unshift(next);
+        notifiers.forEach((notify) => notify(next, prev));
+        state.count = next.count;
     }
-    /**
-     * @param {Notify}Notify
-     * ret
-     */
+   /**
+ * @param {Notify} notify
+ * @returns {EmptyFn}
+ */
+
 export   const subscribe = (notify) => {
     notifiers.push(notify);
 
     const unsubscribe = () => {
         const handler = (current) => current !== notify
-      const result = notifiers.filter(handler)
-      notifiers = result;  
     };
 
     return unsubscribe;
 };
-   
+ 
+/**
+ * @returns {state}
+ */
+export const getState = () => {
+    return { ...state };
+};
 
 
 
