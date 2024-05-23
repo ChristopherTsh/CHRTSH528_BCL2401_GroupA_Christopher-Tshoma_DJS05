@@ -44,7 +44,7 @@ const initial = {count: 0};
 /**
  * @type {state}
  */
- const state = initial
+ const state = [initial]
 
  /**
  * @type {Array<Notify>}
@@ -78,6 +78,7 @@ export   const subscribe = (notify) => {
 
     const unsubscribe = () => {
         const handler = (current) => current !== notify
+        return handler;
     };
 
     return unsubscribe;
