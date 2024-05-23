@@ -1,17 +1,37 @@
-export const increase = (state) => {
+/**
+ * @typedef {object} state
+ * @prop {number} count
+ */
+
+/**
+ * @param {state} state
+ * @returns {state}
+ */
+export const add = (state) => {
     return {
-        ... state,
-        value: state.value + 1,
+        ...state,
+        count: state.count + 1,
     };
 };
 
-export const decrease = (state) => {
+/**
+ * @param {state} state
+ * @returns {state}
+ */
+export const subtract = (state) => {
     return {
-        ... state,
-        value: state.value - 1,
+        ...state,
+        count: state.count - 1,
     };
 };
 
-const get = (state, key) => {
-    return state[key];
+/**
+ * @param {state} state
+ * @returns {state}
+ */
+export const reset = (state) => {
+    return {
+        ...state,
+        count: 0,
+    };
 };
