@@ -18,7 +18,7 @@ update(subtract);// Decrements the count by 1
 // Scenario 4: Resetting the Counter
 update(reset); // Resets the count to 0
 
-// Unsubscribe the logHandler to stop logging further state changes
+// Unsubscribe the logHandler to stop logging further state changes 
 unsubscribeLog();
 
 
